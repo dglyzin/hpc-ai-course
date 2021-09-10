@@ -1,0 +1,14 @@
+deprecated for 25 years 
+
+hpc -ml -dl(ai)
+c/c++
+openmp-mpi-cuda
+
+cpu-gpu-interconnect
+
+top-500
+
+зачем еще курс, если есть онлайн-курсы
+
+kaggle
+ods.ai
