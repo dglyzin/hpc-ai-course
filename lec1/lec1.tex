@@ -109,8 +109,11 @@
 \node[draw,rectangle,left of=dnode14,minimum height = 1.6 cm,minimum width = 1.6 cm,xshift=-0.4cm] (dnode07) {dnode07};
 \node[draw,rectangle,left of=dnode07,minimum height = 1.6 cm,minimum width = 1.6 cm,xshift=-1cm] (dnode08) {dnode08};
 \node[draw,circle,below of=dnode08,minimum height = 1.8 cm,minimum width = 1.8 cm,yshift=-3cm] (USER) {USER};
-\node[draw,rectangle,below of=dnode10,yshift=-2cm,minimum height = 1.6 cm,minimum width = 1.6 cm] (ctrl1) {ctrl1};
-\node[draw,rectangle,below of=dnode13,yshift=-2cm,minimum height = 1.6 cm,minimum width = 1.6 cm] (stovagel) {stovagel};
+\node[draw,rectangle,below of=dnode10,yshift=-3cm,minimum height = 1.6 cm,minimum width = 1.6 cm] (ctrl1) {ctrl1};
+\node[draw,rectangle,below of=dnode13,yshift=-3cm,minimum height = 1.6 cm,minimum width = 1.6 cm] (stovagel) {stovagel};
+
+\node[below of=dnode12,yshift=-1.2cm,minimum height = 1.6 cm,minimum width = 1.6 cm] (bit) {\tiny16bit Eterned};
+
 \draw[->] (Inliniband.south) -| (dnode07.north);
 \draw[->] (Inliniband.south) -| (dnode08.north);
 \draw[->] (Inliniband.south) -| (dnode09.north);
@@ -119,9 +122,25 @@
 \draw[->] (Inliniband.south) -| (dnode12.north);
 \draw[->] (Inliniband.south) -| (dnode13.north);
 \draw[->] (Inliniband.south) -| (dnode14.north);
-\draw[->] (dnode08) -- (USER) node[near start]{\rotatebox[origin=c]{-90}{\tiny   cudahub08}};
-\draw[->] (dnode07) |- (USER) ;
-\draw[->] (USER.south) -| (ctrl1) node[near start]{\tiny ssh -p 2222 cluster.accelcomp.org} ;
+
+\draw[<->, color=red] (dnode08) -- (USER) node[near start, color=black]{\rotatebox[origin=c]{-90}{\tiny  \; cudahub08}};
+\draw[<->, color=red] (dnode07) -- +(0,-3) node[near start, color=black]{\rotatebox[origin=c]{-90}{\tiny  \; cudahub07}} -- (USER) ;
+
+\draw[->, color=red] (USER.south)   -- +(0,-0.5) -| (ctrl1) node[near start, color=black]{\tiny ssh -p 2222 
+cluster.accelcomp.org} ;
+
+\draw (-5,-4)   -- ++(10,0);
+\draw[->] (dnode09) -- +(0,-2);
+\draw[->] (dnode10) -- +(0,-2);
+\draw[->] (dnode11) -- +(0,-2);
+\draw[->] (dnode12) -- +(0,-2);
+\draw[->] (dnode13) -- +(0,-2);
+\draw[->] (dnode14) -- +(0,-2);
+\draw[<->] (stovagel) -- +(0,2);
+\draw[<->] (ctrl1) -- +(0,2);
+
+\draw[->] (-2.2,-2.8) -- ++(0,-1.2);
+\draw[->] (-4.2,-2.8) -- ++(0,-1.2);
 \end{tikzpicture}
 \end{frame}
 
