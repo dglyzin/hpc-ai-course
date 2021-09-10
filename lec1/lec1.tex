@@ -99,18 +99,29 @@
   >=stealth,
   bend angle=45,
   auto]
-\node[draw,rectangle,minimum width = 10 cm,text centered ] (Inliniband) at (0,0) {56 Gb/s Inliniband};
+\node[draw,thick,rectangle,minimum width = 10 cm,text centered ] (Inliniband) at (0,0) {56 Gb/s Inliniband};
 \node[draw,rectangle,below of=Inliniband,xshift=4.5cm, yshift=-1cm] (dnode09) {\rotatebox[origin=c]{-90}{dnode09}};
 \node[draw,rectangle,left of=dnode09] (dnode10) {\rotatebox[origin=c]{-90}{dnode10}};
 \node[draw,rectangle,left of=dnode10] (dnode11) {\rotatebox[origin=c]{-90}{dnode11}};
 \node[draw,rectangle,left of=dnode11] (dnode12) {\rotatebox[origin=c]{-90}{dnode12}};
 \node[draw,rectangle,left of=dnode12] (dnode13) {\rotatebox[origin=c]{-90}{dnode13}};
 \node[draw,rectangle,left of=dnode13] (dnode14) {\rotatebox[origin=c]{-90}{dnode14}};
-\node[draw,rectangle,left of=dnode14,minimum height = 1.8 cm,minimum width = 1.8 cm,xshift=-0.4cm] (dnode07) {dnode07};
-\node[draw,rectangle,left of=dnode07,minimum height = 1.8 cm,minimum width = 1.8 cm,xshift=-1cm] (dnode08) {dnode08};
-\node[draw,rectangle,below of=dnode08,minimum height = 1.8 cm,minimum width = 1.8 cm,yshift=-2cm] (USER) {USER};
-%\draw[->] (Inliniband) |- (dnode09);
-%\path[->] (Inliniband) edge (dnode09);
+\node[draw,rectangle,left of=dnode14,minimum height = 1.6 cm,minimum width = 1.6 cm,xshift=-0.4cm] (dnode07) {dnode07};
+\node[draw,rectangle,left of=dnode07,minimum height = 1.6 cm,minimum width = 1.6 cm,xshift=-1cm] (dnode08) {dnode08};
+\node[draw,circle,below of=dnode08,minimum height = 1.8 cm,minimum width = 1.8 cm,yshift=-3cm] (USER) {USER};
+\node[draw,rectangle,below of=dnode10,yshift=-2cm,minimum height = 1.6 cm,minimum width = 1.6 cm] (ctrl1) {ctrl1};
+\node[draw,rectangle,below of=dnode13,yshift=-2cm,minimum height = 1.6 cm,minimum width = 1.6 cm] (stovagel) {stovagel};
+\draw[->] (Inliniband.south) -| (dnode07.north);
+\draw[->] (Inliniband.south) -| (dnode08.north);
+\draw[->] (Inliniband.south) -| (dnode09.north);
+\draw[->] (Inliniband.south) -| (dnode10.north);
+\draw[->] (Inliniband.south) -| (dnode11.north);
+\draw[->] (Inliniband.south) -| (dnode12.north);
+\draw[->] (Inliniband.south) -| (dnode13.north);
+\draw[->] (Inliniband.south) -| (dnode14.north);
+\draw[->] (dnode08) -- (USER) node[near start]{\rotatebox[origin=c]{-90}{\tiny   cudahub08}};
+\draw[->] (dnode07) |- (USER) ;
+\draw[->] (USER.south) -| (ctrl1) node[near start]{\tiny ssh -p 2222 cluster.accelcomp.org} ;
 \end{tikzpicture}
 \end{frame}
 
