@@ -43,6 +43,7 @@
 \usepackage[utf8]{inputenc}
 %\usepackage[T2A]{fontenc}
 \usepackage[russian]{babel}
+%\usepackage{booktabs}
 
 
 %Библиотеки для Игоря
@@ -77,7 +78,7 @@
 %	 SECTION 1
 %----------------------------------------------------------------------------------------
 
-\section{Section 1} % Section title slide, unnumbered
+\section{Что такое HPC} % Section title slide, unnumbered
 
 %------------------------------------------------
 
@@ -85,6 +86,72 @@
 	This is a simple slide.
 \end{frame}
 
+%------------------------------------------------
+
+\begin{frame}{Top500 - June 2021}
+	\begin{table}
+		\centering % Centre the table on the slide
+\small		
+                \begin{tabular}{p{0.1cm} p{8cm} p{0.7cm} p{0.5cm} p{0.5cm}}
+
+			N  &  System & kCr & PF/s & MW\\
+			\toprule
+			1 &   Supercomputer Fugaku, A64FX 48C 2.2GHz, Tofu interconnect D, Fujitsu 
+RIKEN Center for Computational Science Japan &  7,630 & 442 &29\\
+			\midrule
+			 2 &    Summit - IBM Power System AC922, IBM POWER9 22C 3.07GHz, NVIDIA Volta GV100, Dual-rail Mellanox EDR Infiniband, IBM
+DOE/SC/Oak Ridge National Laboratory United States   & 2,414 & 148 &10\\
+			\midrule
+                            3 &  Sierra - IBM Power System AC922, IBM POWER9 22C 3.1GHz, NVIDIA Volta GV100, Dual-rail Mellanox EDR Infiniband, IBM/NVIDIA/Mellanox DOE/NNSA/LLNL United States  & 1,572 & 94 & 7 \\
+			\midrule
+			4 &   Sunway TaihuLight - Sunway MPP, Sunway SW26010 260C 1.45GHz, Sunway, NRCPC National Supercomputing Center in Wuxi
+			China  &  10,649 & 93 &29\\
+		\end{tabular}
+	%\caption{Table caption}
+	\end{table}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Top500 - June 2021}
+	\begin{table}
+		\centering % Centre the table on the slide
+\small		
+                \begin{tabular}{p{0.1cm} p{8cm} p{0.7cm} p{0.5cm} p{0.5cm}}
+			 5 &    Perlmutter - HPE Cray EX235n, AMD EPYC 7763 64C 2.45GHz, NVIDIA A100 SXM4 40 GB, Slingshot-10, HPE DOE/SC/LBNL/NERSC United States    & 706 & 64 &2.5\\
+			\midrule
+                            6 &  Selene - NVIDIA DGX A100, AMD EPYC 7742 64C 2.25GHz, NVIDIA A100, Mellanox HDR Infiniband, Nvidia NVIDIA Corporation United States & 555 & 63 & 2.6 \\
+			\midrule
+                            7 &   Tianhe-2A - TH-IVB-FEP Cluster, Intel Xeon E5-2692v2 12C 2.2GHz, TH Express-2, Matrix-2000, NUDT National Super Computer Center in Guangzhou China & 4,981 & 61 & 18 \\
+			\midrule
+                            8 &   JUWELS Booster Module - Bull Sequana XH2000, AMD EPYC 7402 24C 2.8GHz, NVIDIA A100, Mellanox HDR InfiniBand/ParTec ParaStation ClusterSuite, Atos Forschungszentrum Juelich (FZJ) Germany  & 449 & 44 & 1.7 \\
+			
+		\end{tabular}
+	%\caption{Table caption}
+	\end{table}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Top500 - June 2021}
+	\begin{table}
+		\centering % Centre the table on the slide
+\small		
+                \begin{tabular}{p{0.2cm} p{8cm} p{0.7cm} p{0.5cm} p{0.5cm}}
+			9 &     	HPC5 - PowerEdge C4140, Xeon Gold 6252 24C 2.1GHz, NVIDIA Tesla V100, Mellanox HDR Infiniband, Dell EMC
+Eni S.p.A.  Italy     & 669 & 35 &2.2\\
+			\midrule
+                            10 &   Frontera - Dell C6420, Xeon Platinum 8280 28C 2.7GHz, Mellanox InfiniBand HDR, Dell EMC Texas Advanced Computing Center/Univ. of Texas United States  & 448 & 23 & ? \\
+			\midrule
+                            61 &    Christofari - NVIDIA DGX-2, Xeon Platinum 8168 24C 2.7GHz, Mellanox InfiniBand EDR, NVIDIA Tesla V100, Nvidia
+SberCloud Russia  & 99 & 6.7 & ?\\
+			\midrule
+                            199 &     Lomonosov 2 - T-Platform A-Class Cluster, Xeon E5-2697v3 14C 2.6GHz,Intel Xeon Gold 6126, Infiniband FDR, Nvidia K40m/P-100, T-Platforms Moscow State University - Research Computing Center
+Russia  & 64 & 2.5 & ? \\
+		\end{tabular}
+	%\caption{Table caption}
+	\end{table}
+\end{frame}
 %------------------------------------------------
 
 \begin{frame}[plain]{Plain Slide}
