@@ -1,0 +1,319 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{adjustbox}
+\usepackage[inkscapeversion=1.2]{svg} 
+\usetikzlibrary{shadings}
+
+\beamertemplatenavigationsymbolsempty
+
+% Set the background color
+% #000A1E
+\definecolor{sitebackground1}{RGB}{0,10,30}
+% #040714
+\definecolor{sitebackground2}{RGB}{4,7,20}
+% #66c6ea
+\definecolor{logocolor}{RGB}{102,198,234}
+
+
+
+\definecolor{darkblue}{RGB}{25,28,53}
+\definecolor{baseblue}{RGB}{19,80,158}
+\definecolor{additionalblue}{RGB}{47,127,193}
+
+\definecolor{baselightblue}{RGB}{64,176,228}
+\definecolor{additionallightblue}{RGB}{102,197,238}
+
+\definecolor{baselightblue}{RGB}{64,176,228}
+
+\setbeamercolor{background canvas}{bg=baseblue}
+
+\setbeamercolor{normal text}{fg=white}
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{itemize item}{fg=logocolor}
+\setbeamercolor{block title}{fg=logocolor}
+
+
+% Load custom fonts
+\newfontfamily\headerfont{Unageo}[
+Path = ../fonts/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+ItalicFont = *-Regular-Italic,
+]
+
+\setsansfont{Montserrat}[
+Path = ../fonts/,
+Extension = .ttf,
+UprightFont = *-Regular,
+BoldFont = *-Bold,
+ItalicFont = *-Italic,
+]
+
+% Set title and header font to Unageo
+\setbeamerfont{title}{family=\headerfont, series=\bfseries}
+\setbeamerfont{frametitle}{family=\headerfont, series=\bfseries}
+
+% Command to easily adjust background images
+\newcommand{\backgroundimages}[4]{%
+	\begin{tikzpicture}[remember picture, overlay]
+		% Left background image
+		\node[anchor=south west, inner sep=0] at ([xshift=#1-0.3cm]current page.south west) 
+		{\includesvg[width=0.3\paperwidth, height=0.3\paperheight]{#2}};
+		
+		% Right background image
+		\node[anchor=north east, inner sep=0] at ([xshift=#1+0.3cm]current page.north east) 
+		{\includesvg[width=0.3\paperwidth, height=0.3\paperheight]{#3}};
+		
+		% Center background image
+		\node[anchor=south, inner sep=0] at ([xshift=#1-4cm]current page.south) 
+		{\includesvg{#4}};
+	\end{tikzpicture}%
+}
+
+\newcommand{\backgroundgradient}{%
+	\begin{tikzpicture}[remember picture, overlay]		
+		\node[anchor=south, inner sep=0] at ([xshift=-4cm]current page.south) 
+		{\includesvg{Ellipse_4.svg}};
+	\end{tikzpicture}%
+}
+
+\setbeamertemplate{background canvas}{
+	\begin{tikzpicture}[remember picture, overlay]
+		\shade[left color=baseblue, right color=darkblue] 
+		(current page.south west) rectangle (current page.north east);
+		
+		\node[anchor=south west, inner sep=0] at ([xshift=-0.3cm]current page.south west) 
+		{\includesvg[width=0.3\paperwidth, height=0.3\paperheight]{Group_4.svg}};
+		
+		% Right background image
+		\node[anchor=north east, inner sep=0] at ([xshift=0.3cm]current page.north east) 
+		{\includesvg[width=0.3\paperwidth, height=0.3\paperheight]{Group_5.svg}};
+				
+	\end{tikzpicture}
+}
+
+% Title page
+\title{СУПЕРКОМПЬЮТЕРНЫЕ ТЕХНОЛОГИИ }
+\subtitle{И ОСНОВЫ ИСКУССТВЕННОГО ИНТЕЛЛЕКТА}
+\author{Дмитрий Глызин}
+\institute{Акселкомп / ЯрГУ}
+%\date{\today}
+\date{Осень 2025}
+
+\begin{document}
+	
+	% First slide with title
+	{
+		%\setbeamertemplate{background}{
+		%	\backgroundimages{0cm}{Group_4.svg}{Group_5.svg}{Ellipse_4.svg}
+		%}
+		\begin{frame}
+			\titlepage
+		\end{frame}
+	}
+	
+	% Section slide
+	\section{Introduction}
+	{
+		%\setbeamertemplate{background}{
+		%	\backgroundgradient
+		%}
+		\begin{frame}
+			\frametitle{ОБ ЭТОМ КУРСЕ}
+			\begin{block}{Преподаватели}
+			\begin{itemize}
+				\item Глызин Дмитрий Сергеевич --- лекции, семинары
+				\item Куракин Павел Александрович --- практические занятия				
+			\end{itemize}			
+		    \end{block}
+		    
+		    \begin{block}{Занятия}
+		    	\begin{itemize}
+		    		\item Лекции, 1 пара в неделю. Математические основы машинного обучения и искуственного интеллекта. Статистическое машинное обучение. Теория Вапника-Червоненкиса.
+		    		\item Семинары, 1 пара в две недели. Обсуждение статей в области ИИ, актуальных практических задач, продвинутых алгоритмов. 
+		    		\item Практические занятия, 1 пара в неделю. Алгоритмы ML и DL, их реализации, анализ датасетов.
+		    	\end{itemize}			
+		    \end{block}
+		    
+		    
+		\end{frame}
+		
+		\begin{frame}
+			\frametitle{ОБ ЭТОМ КУРСЕ}			
+			\begin{block}{Зачет}
+				\begin{itemize}
+					\item Результаты трех контрольных работы выше 75%					
+					\item Выступление на семинаре 
+					\item Проект по нейросетям
+				\end{itemize}			
+				Более сложные проекты могут снизить требования по остальным пунктам.
+			\end{block}
+		\end{frame}
+		
+		\begin{frame}
+			\frametitle{ЗАЧЕМ?}			
+				\begin{itemize}
+					\item Зачем курс, если есть множество онлайн-курсов?
+					\item Зачем курс, если нейросеть сама ответит на все вопросы и сгенерирует код?
+				\end{itemize}			
+		\end{frame}
+		
+	}
+	
+	% Content slide
+	\section{supercomputing}
+	{
+		%\setbeamertemplate{background}{
+		%	\backgroundimages{0cm}{Group_4.svg}{Group_5.svg}{Ellipse_4.svg}
+		%}
+		\begin{frame}
+			\frametitle{ПРОГРЕСС}		
+			\begin{block}{Прогресс в XX веке}
+				\begin{itemize}
+					\item 1952: "Кибернетика - “наука” мракобесов"
+					\item 1960-1990: работы Вапника и Червоненкиса
+					\item 1970: открытие факультета Вычислительной математики и кибернетки МГУ									
+				\end{itemize}
+					\end{block}
+			\begin{block}{Прогресс на моей памяти}
+				\begin{itemize}
+					\item 1999: ночной интернет домой по телефонной линии вскладчину
+					\item 2017: Национальный суперкомьютерный форум в Переславле под руководством С.М. Абрамова
+					\item 2025: интеллектуальный ассистент в кармане		
+					\item 2025: С.М. Абрамов осужден за финансирование экстремистской организации			
+				\end{itemize}
+			\end{block}	
+				
+		
+		
+		\end{frame}
+	}
+	\section{TOP-500}
+	{
+		%\setbeamertemplate{background}{
+		%	\backgroundimages{0cm}{Group_4.svg}{Group_5.svg}{Ellipse_4.svg}
+		%}
+		
+		
+		\begin{frame}
+			%\begin{tikzpicture}[remember picture, overlay]
+				% First, draw the white rectangle at a specific location
+			%	\fill[white] (current page.west) ++(1cm,-1cm) rectangle ++(5cm,-3cm);
+			%\end{tikzpicture}
+			
+			\frametitle{РЕЙТИНГ СУПЕРКОМПЬЮТЕРОВ TOP-500}
+						
+			%\colorbox{white}{\includegraphics[page=1, trim=25 370 20 185, clip, width=\textwidth+1]{TOP500_202506_Poster.pdf}}
+			\begin{tikzpicture}[remember picture,overlay]
+			\node[anchor=west, inner sep=0] at ([xshift=0.cm]current page.west) 
+			{\colorbox{white}
+				{\includegraphics[page=1, trim=25 370 20 185, clip, width=\paperwidth]{TOP500_202506_Poster.pdf}}};
+			\end{tikzpicture}
+			
+			%\vspace{1cm}
+			%\centering
+			%https://top500.org
+		\end{frame}
+        
+       
+		\begin{frame}
+		
+			\frametitle{СУПЕРКОМПЬЮТЕР}
+				\begin{block}{Компоненты}
+				\begin{itemize}
+					\item узлы
+					\item процессоры
+					\item память
+					\item ускорители 
+					\item память ускорителя
+					\item интерконнект					
+				\end{itemize}
+			\end{block}	
+		\end{frame}
+
+	}
+	
+	
+	% Conclusion slide
+	\section{Conclusion}
+	{
+		
+		
+		\begin{frame}
+			\frametitle{TOP-500 ИЮНЬ 2025}
+			\begin{itemize}
+				\item 1 El Capitan (Ливерморская лаборатория) 1 742 000 TFlop/s
+				\item 4 Jupiter (Исследовательский центр Юлиха) 793 400 TFlop/s
+				\item 21 Sunway TaihuLight 93 000 TFlop/s (Национальный суперкомпьютерный центр в Уси) 93014 TFlop/s (без GPU)
+				\item 75 Червоненкис (Яндекс)  21 530 TFlop/s
+				\item 102 Галушкин (Яндекс) 
+				\item 120 Ляпунов (Яндекс)
+				\item 125 Кристофари Нео (Сбер)
+				\item 201 Кристофари (Сбер)
+				\item 495 Ломоносов 2 (МГУ)  2 478 TFlop/s
+				
+			\end{itemize}
+			
+		\end{frame}
+		
+		\begin{frame}
+			\frametitle{ТЕРАФЛОПСЫ}
+			\begin{itemize}
+				\item flops = floating point operation per second									
+				\item Стандартизованный бенчмарк для реальной производительности
+				\item Тенденция к уменьшению точности и увеличению массивного параллелизма
+			\end{itemize}	
+			
+		\end{frame}
+		
+		
+		\begin{frame}
+			\frametitle{ФОРМАТЫ ЧИСЕЛ}
+			\begin{tikzpicture}[remember picture,overlay]
+				\node[anchor=west, inner sep=0] at ([xshift=4.cm]current page.west) 
+				{
+					{\includegraphics[width=7cm]{float.png}}};
+			\end{tikzpicture}
+			
+		\end{frame}
+		
+		\begin{frame}
+			\frametitle{ОБУЧЕНИЕ LLM}
+			\begin{itemize}
+				\item Требует огромных ресурсов				
+				\item Амодеи: на оборудовании, потребовавшемся для обучения llm, можно запустить миллион инференсов этой llm				
+				\item Маск: не хватает трансформаторов для обучения трансформеров
+			\end{itemize}	
+			
+		\end{frame}
+		
+		\begin{frame}
+			
+		\frametitle{ОБУЧЕНИЕ LLM}
+		   Пример темы для выступления на семинаре: собрать информацию из открытых данных, фигурируют ли в TOP-500 машины, на которых обучались известные LLM
+		   
+	    \end{frame}	
+		
+		\begin{frame}
+			\frametitle{СУПЕРДАННЫЕ}
+			\begin{itemize}
+				\item anna’s archive: 1600TB включая нераспознанные
+				\item stackoverflow / stackexchange: несколько TB текста
+				\item arxiv.org: 6TB
+				\item Wikipedia: 200TB с медиафайлами
+				\item reddit: более 20TB с картинками
+				
+			\end{itemize}		
+		
+		\end{frame}
+		
+		
+	}
+	
+\end{document} 
