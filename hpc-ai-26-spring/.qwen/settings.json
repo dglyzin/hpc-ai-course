@@ -1,0 +1,20 @@
+{
+  "general": {},
+  "model": {
+    "generationConfig": {
+      "timeout": 6000000
+    },
+    "samplingParams": {}
+  },
+  "tools": {
+    "allowed": [
+      "run_shell_command(git)",
+      "run_shell_command(npm test)",
+      "run_shell_command(cd)",
+      "run_shell_command(tail)",
+      "run_shell_command(head)",
+      "run_shell_command(1)"
+    ]
+  },
+  "$version": 3
+}
