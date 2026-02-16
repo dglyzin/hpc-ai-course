@@ -6,10 +6,17 @@
 \usepackage{fontspec}
 \usepackage{adjustbox}
 \usepackage[inkscapeversion=1.2]{svg} 
-\usetikzlibrary{shadings}
+\usetikzlibrary{shadings,shapes, arrows, positioning, fit}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
+
+% Define colors for clarity
+\definecolor{docker}{RGB}{225,108,54}
+\definecolor{slurm}{RGB}{63,81,181}
+\definecolor{jupyter}{RGB}{239,108,0}
+\definecolor{gpu}{RGB}{76,175,80}
+
 
 
 \beamertemplatenavigationsymbolsempty
@@ -137,7 +144,119 @@ ItalicFont = *-Italic,
 			
 			
 		\end{frame}
+%%%%%%%
+
+	
+	\begin{frame}{Control Flow: Distributed LLM Inference via Slurm}
+		\centering
+		\begin{tikzpicture}[
+			node distance=8mm,
+			box/.style={draw, rounded corners, inner sep=6pt},
+			service/.style={box, minimum height=12mm, text width=3.5cm, align=center},
+			terminal/.style={box, draw=jupyter, text width=2.8cm, font=\ttfamily\small},
+			ssh/.style={->, >=stealth, thick, orange, dashed},
+			slurmjob/.style={->, >=stealth, thick, slurm, line width=1.5pt},
+			browser/.style={circle, draw=jupyter, minimum size=8mm}
+			]
+			
+			% ======== NODES ========
+			% cnode07 (left)
+			\node (cnode07) [service, fill=blue!5] {
+				\textbf{cnode07} \\ 
+				\footnotesize{3x A30 GPUs}
+			};
+			
+			% Docker container inside cnode07
+			\node (docker) [service, fill=docker!10, below=of cnode07, yshift=5mm] {
+				\textbf{Docker Container} \\
+				\footnotesize{JupyterHub Spawner}
+			};
+			
+			% JupyterLab UI
+			\node (jlab) [terminal, fill=white, above right=5mm and -5mm of docker] {
+				\small\textcolor{jupyter}{\textbf{JupyterLab}} \\
+				\footnotesize{(in browser)}
+			};
+			\node [browser] at (jlab.north west) [xshift=2mm, yshift=-2mm] {};
+			
+			% Terminals in JupyterLab
+			\node (term1) [terminal, below=of jlab, yshift=-3mm] {
+				\footnotesize{Terminal 1:} \\
+				\texttt{\$ ssh cnode07}
+			};
+			\node (term2) [terminal, right=5mm of term1] {
+				\footnotesize{Terminal 2:} \\
+				\texttt{\$ qwen-cli ...}
+			};
+			
+			% cnode08 (right)
+			\node (cnode08) [service, fill=blue!5, right=4.5cm of cnode07] {
+				\textbf{cnode08} \\ 
+				\footnotesize{4x A100 GPUs}
+			};
+			
+			% Llama.cpp server
+			\node (llama) [terminal, fill=white, above=5mm of cnode08] {
+				\small\textcolor{slurm}{\textbf{llama.cpp server}} \\
+				\footnotesize{Qwen-Coder:12434}
+			};
+			
+			% ======== CONNECTIONS ========
+			% Browser to JupyterLab
+			\draw [->, >=stealth, thick, jupyter] 
+			(jlab.south) ++(0,-2mm) -- ++(0,-5mm) node[midway, right] {\scriptsize 1. User login};
+			
+			% Terminal 1: SSH to host
+			\draw [ssh] (term1) -- ++(0,-8mm) -| 
+			node[pos=0.7, below] {\scriptsize 2. Escape container} 
+			(cnode07.south);
+			
+			% Slurm job launch
+			\draw [slurmjob] (cnode07.east) -- ++(15mm,0) |- 
+			node[pos=0.3, above] {\scriptsize 3. \texttt{sbatch llama-server}} 
+			(llama.west);
+			
+			% CLI connection to server
+			\draw [slurmjob] (term2.south) ++(0,-2mm) -- ++(0,-5mm) -| 
+			node[pos=0.7, below] {\scriptsize 4. Connect to remote} 
+			(llama.south);
+			
+			% ======== LABELS ========
+			\node [anchor=north, font=\small\bfseries] at (cnode07.south) {Host OS};
+			\node [anchor=north, font=\small\bfseries] at (docker.north) {JupyterHub};
+			\node [anchor=south, font=\small, text=slurm] at (llama.north) {Slurm Job};
+			
+			% ======== LEGEND ========
+			\begin{scope}[shift={(6,-5.5)}, font=\scriptsize]
+				\node (sshicon) [circle, draw=orange, fill=orange!20, inner sep=1pt] {\tiny SSH};
+				\node [right=2mm of sshicon] {Container escape};
+				
+				\node (slurmicon) [below=2mm of sshicon, circle, draw=slurm, fill=slurm!20, inner sep=1pt] {\tiny S};
+				\node [right=2mm of slurmicon] {Slurm job};
+			\end{scope}
+			
+		\end{tikzpicture}
 		
+		\vspace{3mm}
+		\footnotesize
+		\textbf{Sequence:} 
+		1. User accesses JupyterLab via browser 
+		$\rightarrow$ 
+		2. SSH from container to host OS 
+		$\rightarrow$ 
+		3. Launch server on cnode08 via Slurm 
+		$\rightarrow$ 
+		4. CLI connects to remote server
+	\end{frame}
+	
+
+
+
+
+
+
+
+%%%%%%%	
 	}
 
 	
