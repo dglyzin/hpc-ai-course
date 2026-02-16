@@ -144,7 +144,61 @@ ItalicFont = *-Italic,
 			
 			
 		\end{frame}
-%%%%%%%
+
+		% Section title slide
+		\begin{frame}
+			\centering
+			\vspace{2cm}
+			{\Huge\headerfont\bfseries 1. ИНФРАСТРУКТУРА}
+		\end{frame}
+
+	% Infra slide 1: Addresses and Linux commands
+	\begin{frame}{ИНФРАСТРУКТУРА: АДРЕСА И КОМАНДЫ LINUX}
+		%\frametitle
+		
+		{Адреса}
+		\begin{itemize}
+			\item \textbf{Юпитерхаб:} \url{https://jupyterhub.yarsu.ru} (контейнеры на \texttt{cnode07})
+			\item \textbf{Управляющий узел (ssh):} \texttt{cnode07}
+			\item \textbf{Вычислительный узел:} \texttt{cnode08}
+			\item \texttt{cnode07}: \texttt{10.7.71.204} (внутри университетской сети)
+			\item \texttt{cnode08}: \texttt{10.7.71.203} (внутри университетской сети)
+		\end{itemize}
+
+		\bigskip
+		%\frametitle
+		{Linux-команды}
+		\begin{itemize}
+			\item \texttt{ssh <user>@<host>} — ssh-доступ
+			\item \texttt{passwd} — смена пароля (только на \texttt{cnode07})
+			\item \texttt{nano <file>} — текстовый редактор
+			\item \texttt{cd <folder>} — переход в папку
+			\item \texttt{ls -la} — список файлов (включая скрытые)
+		\end{itemize}
+	\end{frame}
+
+	% Infra slide 2: SLURM commands
+	\begin{frame}{ИНФРАСТРУКТУРА: SLURM}
+		
+		%\frametitle
+		{SLURM команды}
+		\begin{itemize}
+			\item \texttt{sinfo} — список ресурсов
+			\item \texttt{squeue} — список задач в очереди
+			\item \texttt{scancel <jobid>} — остановить задачу
+			\item \texttt{Ctrl+C} (два раза) — остановить интерактивную задачу
+		\end{itemize}
+
+		\bigskip
+		%\frametitle
+		{Примеры использования}
+		\begin{itemize}
+			\item \texttt{srun -w cnode07 hostname}
+			\item \texttt{srun -w cnode08 --gpus-per-task=1 nvidia-smi -L}
+			\item \texttt{srun -w cnode08 --gpus-per-task=2 \hspace{0.5mm} \\[-1mm]
+				\hspace{1cm} sh /clusterhome/install/llamascripts/server\_qwen\_next\_1.sh}
+		\end{itemize}
+	\end{frame}
 
 
 	\begin{frame}{Control Flow: Produced by Qwen3-235B-2507}
@@ -285,13 +339,13 @@ ItalicFont = *-Italic,
 		};
 		
 		% Terminals in JupyterLab
-		\node (term1) [terminal, right=of docker, yshift=-3mm] {
+		\node (term1) [terminal, right=of docker, yshift=0mm] {
 			\footnotesize{Terminal 1:} \\
 			\texttt{\$ ssh cnode07}
 		};
 		\node (term2) [terminal, right=5mm of term1] {
 			\footnotesize{Terminal 2:} \\
-			\texttt{\$ qwen-cli ...}
+			\texttt{\$ qwen}
 		};
 		
 		% cnode08 (right)
@@ -302,8 +356,8 @@ ItalicFont = *-Italic,
 		
 		% Llama.cpp server
 		\node (llama) [terminal, fill=white, above=5mm of cnode08] {
-			\small\textcolor{slurm}{\textbf{llama.cpp server}} \\
-			\footnotesize{Qwen-Coder:12434}
+			\small\textcolor{slurm}{\textbf{llama.cpp Qwen Coder Next}} \\
+			\footnotesize{cnode08:12434}
 		};
 		
 		% ======== CONNECTIONS ========
@@ -316,22 +370,22 @@ ItalicFont = *-Italic,
 		
 		
 		% Terminal 1: SSH to host
-		\draw [ssh] (term1) -- ++(0,-8mm) -| 
-		node[pos=0.7, above] {\scriptsize 2. Escape container} 
+		\draw [ssh] (term1.north) -- %++(0,-8mm) -| 
+		node[midway] {\scriptsize 2. Escape container} 
 		(cnode07.south);
 		
 		% Slurm job launch
-		\draw [slurmjob] (cnode07.east) -- ++(15mm,0) |- 
-		node[pos=0.3, above] {\scriptsize 3. \texttt{srun llama-server}} 
+		\draw [slurmjob] (cnode07) -- %++(15mm,0) |- 
+		node[midway, xshift=-4mm, yshift=2mm] {\scriptsize 3. \texttt{srun llama-server}} 
 		(llama.west);
 		
 		% CLI connection to server
-		\draw [slurmjob] (term2.south) ++(0,-2mm) -- ++(0,-5mm) -| 
-		node[pos=0.7, below] {\scriptsize 4. Connect to remote} 
+		\draw [slurmjob] (term2.north) -- %++(0,-2mm) -- ++(0,-5mm) -| 
+		node[pos=0.25, below] {\scriptsize 4. OpenAI API} 
 		(llama.south);
 		
 		% ======== LABELS ========
-		\node [anchor=north, font=\small\bfseries] at (cnode07.south) {Host OS};
+		\node [anchor=south, font=\small\bfseries] at (cnode07.north) {Host OS};
 		\node [anchor=south, font=\small\bfseries] at (jlab.north) {JupyterHub};
 		\node [anchor=south, font=\small, text=slurm] at (llama.north) {Slurm Job};
 		
