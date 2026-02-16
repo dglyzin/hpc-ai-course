@@ -5,8 +5,9 @@
 \usepackage{graphicx}
 \usepackage{fontspec}
 \usepackage{adjustbox}
-\usepackage[inkscapeversion=1.2]{svg} 
-\usetikzlibrary{shadings,shapes, arrows, positioning, fit}
+\usepackage[inkscapeversion=1.2]{svg}
+\usepackage{fancyvrb}
+\usetikzlibrary{shadings, shapes, arrows, shapes.geometric, arrows.meta, positioning, fit, backgrounds}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
@@ -18,6 +19,10 @@
 \definecolor{gpu}{RGB}{76,175,80}
 
 
+% Define colors for visual distinction
+\definecolor{cnode07color}{RGB}{210, 225, 240} % Light Blue
+\definecolor{cnode08color}{RGB}{240, 210, 210} % Light Red
+\definecolor{containercolor}{RGB}{255, 250, 205} % Light Yellow
 
 \beamertemplatenavigationsymbolsempty
 
@@ -198,6 +203,13 @@ ItalicFont = *-Italic,
 			\item \texttt{srun -w cnode08 --gpus-per-task=2 \hspace{0.5mm} \\[-1mm]
 				\hspace{1cm} sh /clusterhome/install/llamascripts/server\_qwen\_next\_1.sh}
 		\end{itemize}
+	\end{frame}
+
+	\begin{frame}{ПРОМПТ ДЛЯ ДИАГРАММЫ}
+		\begin{minipage}{\textwidth}
+		\small
+		I need to create a diagram in TeX that will be added as a slide into 1-intro.tex, showing control flow for the following scenario: Slurm cluster consists of 2 nodes, cnode07 with 3x A30 gpus and cnode08 with 4xA100 gpus. On the cnode07 jupyterhub is running. User logs in to the jupyterhub and obtains a jupyterlab in his browser. Then he opens terminal and logs via ssh into cnode07 host. There he launches a slurm job with llama.cpp server on cnode08:12434 serving Qwen Coder. Then in another terminal in jupterlab he runs Qwen-code CLI connected to this local llama.cpp server.
+		\end{minipage}
 	\end{frame}
 
 
@@ -411,6 +423,9 @@ ItalicFont = *-Italic,
 	$\rightarrow$ 
 	4. CLI connects to remote server
 \end{frame}
+
+
+
 
 
 %%%%%%%	
