@@ -1,0 +1,85 @@
+ 
+\documentclass{beamer}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds}
+
+% Define colors for visual distinction
+\definecolor{cnode07color}{RGB}{210, 225, 240} % Light Blue
+\definecolor{cnode08color}{RGB}{240, 210, 210} % Light Red
+\definecolor{containercolor}{RGB}{255, 250, 205} % Light Yellow
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{} % Remove navigation symbols
+
+\begin{document}
+	
+	\begin{frame}[fragile]
+		\frametitle{Slurm Cluster Control Flow: JupyterHub \& Llama.cpp}
+		\centering
+		\begin{tikzpicture}[
+			node distance=0.8cm and 1.2cm, % vertical and horizontal spacing
+			font=\small,
+			box/.style={draw, thick, rectangle, rounded corners, minimum height=1cm, minimum width=2.2cm, align=center},
+			arrow/.style={-{Stealth[scale=1.1]}, thick},
+			label/.style={font=\footnotesize\itshape, text=gray}
+			]
+			
+			% --- USER SIDE ---
+			\node[box, fill=gray!20, cloud, cloud puffs=10, cloud puff arc=120, aspect=2, minimum width=2cm] (user) {User Browser};
+			
+			% --- CNODE07 COMPONENTS ---
+			% 1. JupyterHub
+			\node[box, fill=cnode07color, right=2.5cm of user, yshift=1.2cm] (jh) {JupyterHub};
+			
+			% 2. JupyterLab (Docker Container)
+			\node[box, fill=containercolor, below=of jh] (jl) {JupyterLab\\{\scriptsize(Docker Container)}};
+			
+			% 3. Host Shell
+			\node[box, fill=cnode07color, below=of jl] (host) {Host Shell\\{\scriptsize(cnode07)}};
+			
+			% --- CNODE08 COMPONENTS ---
+			% 4. Llama.cpp Server
+			% Positioned to the right of JupyterLab to allow a clean arrow for CLI connection
+			\node[box, fill=cnode08color, right=3cm of jl] (llama) {llama.cpp Server\\{\scriptsize(Qwen Coder :12434)}};
+			
+			% --- FITTING NODES (Backgrounds) ---
+			
+			% Group cnode07 components (jh, jl, host)
+			\node[draw, very thick, fill=cnode07color!50, rounded corners, fit=(jh)(jl)(host), 
+			inner sep=0.3cm, label={[font=\bfseries]above:cnode07 (3$\times$A30)}] (fit_cnode07) {};
+			
+			% Group cnode08 components (llama)
+			\node[draw, very thick, fill=cnode08color!50, rounded corners, fit=(llama), 
+			inner sep=0.3cm, label={[font=\bfseries]above:cnode08 (4$\times$A100)}] (fit_cnode08) {};
+			
+			% --- ARROWS / FLOW ---
+			
+			% 1. Login Flow
+			\draw[arrow, color=blue] (user) -- node[above, sloped, font=\scriptsize] {1. Login} (jh);
+			
+			% 2. Routing/Spawning Flow
+			\draw[arrow, color=blue] (jh) -- node[right, font=\scriptsize, align=left] {2. Spawn/Route} (jl);
+			
+			% 3. SSH Terminal Flow
+			\draw[arrow, color=orange] (jl.south) -- node[right, font=\scriptsize, align=left] {3. Terminal 1\\(SSH)} (host.north);
+			
+			% 4. Slurm Launch Flow
+			\draw[arrow, color=orange] (host.east) -- ++(0.5,0) |- node[above, pos=0.25, font=\scriptsize] {4. Slurm Launch} (llama.west);
+			
+			% 5. Client Connection Flow
+			\draw[arrow, color=green!60!black, dashed] (jl.east) -- node[above, font=\scriptsize] {5. Qwen-code CLI} (llama.west);
+			
+			% Legend
+			\node[anchor=south east, font=\tiny] at (fit_cnode08.south east) {
+				\begin{tikzpicture}[baseline]
+					\draw[arrow, color=orange, thin] (0,0.1) -- (0.5,0.1); 
+					\node[right, font=\tiny] at (0.5,0.1) {Control};
+					\draw[arrow, color=green!60!black, dashed, thin] (0,-0.1) -- (0.5,-0.1); 
+					\node[right, font=\tiny] at (0.5,-0.1) {Data};
+				\end{tikzpicture}
+			};
+			
+		\end{tikzpicture}
+	\end{frame}
+	
+\end{document}
