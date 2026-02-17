@@ -208,11 +208,21 @@ ItalicFont = *-Italic,
 	\begin{frame}{ПРОМПТ ДЛЯ ДИАГРАММЫ}
 		\begin{minipage}{\textwidth}
 		\small
-		Create a diagram in TeX that will be added as a slide into 1-intro.tex, showing control flow for the following scenario: 
+		Create a diagram in TeX, that should be added as a slide into beamer presentation, showing control flow for the following scenario:
 		
-		Slurm cluster consists of 2 nodes, cnode07 with 3x A30 gpus and cnode08 with 4xA100 gpus. On the cnode07 jupyterhub is running. 
+		Slurm cluster consists of 2 nodes, cnode07 with 3x A30 gpus and cnode08 with 4xA100 gpus.
 		
-		User logs in to the jupyterhub and obtains a jupyterlab in his browser. Then he opens terminal in jupyterlab and logs in via ssh to cnode07 host. There he launches a slurm job with llama.cpp server on cnode08:12434 serving Qwen Coder. Then in another terminal in jupterlab he runs Qwen-code CLI connected to this local llama.cpp server.
+		On the cnode07 JupyterHub is running.
+		
+		User logs in to the JupyterHub and obtains a JupyterLab inside a docker container on cnode07. 
+		
+		JupyterLab is routed by JupyterHub and the user has it in his browser.
+		
+		Then in JuptyerLab he opens terminal and logs via ssh into cnode07 host.
+		
+		There he launches slurm job with llama.cpp server on cnode08:12434 serving Qwen Coder.
+		
+		Then in another terminal in jupterlab he runs Qwen-code CLI connected to this local llama.cpp server.
 		\end{minipage}
 	\end{frame}
 
