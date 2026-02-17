@@ -163,22 +163,22 @@ ItalicFont = *-Italic,
 		
 		{Адреса}
 		\begin{itemize}
-			\item \textbf{Юпитерхаб:} \url{https://jupyterhub.yarsu.ru} (контейнеры на \texttt{cnode07})
-			\item \textbf{Управляющий узел (ssh):} \texttt{cnode07}
-			\item \textbf{Вычислительный узел:} \texttt{cnode08}
-			\item \texttt{cnode07}: \texttt{10.7.71.204} (внутри университетской сети)
-			\item \texttt{cnode08}: \texttt{10.7.71.203} (внутри университетской сети)
+			\item [-] \textbf{Юпитерхаб:} \url{https://jupyterhub.yarsu.ru} (контейнеры на \texttt{cnode07})
+			\item [-] \textbf{Управляющий узел (ssh):} \texttt{cnode07}
+			\item [-] \textbf{Вычислительный узел:} \texttt{cnode08}
+			\item [-] \texttt{cnode07}: \texttt{10.7.71.204} (внутри университетской сети)
+			\item [-] \texttt{cnode08}: \texttt{10.7.71.203} (внутри университетской сети)
 		\end{itemize}
 
 		\bigskip
 		%\frametitle
-		{Linux-команды}
+		{Команды Linux}
 		\begin{itemize}
-			\item \texttt{ssh <user>@<host>} — ssh-доступ
-			\item \texttt{passwd} — смена пароля (только на \texttt{cnode07})
-			\item \texttt{nano <file>} — текстовый редактор
-			\item \texttt{cd <folder>} — переход в папку
-			\item \texttt{ls -la} — список файлов (включая скрытые)
+			\item [-] \texttt{ssh <user>@<host>} — ssh-доступ
+			\item [-] \texttt{passwd} — смена пароля (только на \texttt{cnode07})
+			\item [-] \texttt{nano <file>} — текстовый редактор
+			\item [-] \texttt{cd <folder>} — переход в папку
+			\item [-] \texttt{ls -la} — список файлов (включая скрытые)
 		\end{itemize}
 	\end{frame}
 
@@ -186,26 +186,26 @@ ItalicFont = *-Italic,
 	\begin{frame}{ИНФРАСТРУКТУРА: SLURM}
 		
 		%\frametitle
-		{SLURM команды}
+		{Команды SLURM}
 		\begin{itemize}
-			\item \texttt{sinfo} — список ресурсов
-			\item \texttt{squeue} — список задач в очереди
-			\item \texttt{scancel <jobid>} — остановить задачу
-			\item \texttt{Ctrl+C} (два раза) — остановить интерактивную задачу
+			\item [-] \texttt{sinfo} — список ресурсов
+			\item [-] \texttt{squeue} — список задач в очереди
+			\item [-] \texttt{scancel <jobid>} — остановить задачу
+			\item [-] \texttt{Ctrl+C} (два раза) — остановить интерактивную задачу
 		\end{itemize}
 
 		\bigskip
 		%\frametitle
 		{Примеры использования}
 		\begin{itemize}
-			\item \texttt{srun -w cnode07 hostname}
-			\item \texttt{srun -w cnode08 --gpus-per-task=1 nvidia-smi -L}
-			\item \texttt{srun -w cnode08 --gpus-per-task=2 \hspace{0.5mm} \\[-1mm]
+			\item [-] \texttt{srun -w cnode07 hostname}
+			\item [-] \texttt{srun -w cnode08 --gpus-per-task=1 nvidia-smi -L}
+			\item [-] \texttt{srun -w cnode08 --gpus-per-task=2 \hspace{0.5mm} \\[-1mm]
 				\hspace{1cm} sh /clusterhome/install/llamascripts/server\_qwen\_next\_1.sh}
 		\end{itemize}
 	\end{frame}
 
-	\begin{frame}{ПРОМПТ ДЛЯ ДИАГРАММЫ}
+	\begin{frame}{ЗАПРОС ДЛЯ ДИАГРАММЫ}
 		\begin{minipage}{\textwidth}
 		\small
 		Create a diagram in TeX, that should be added as a slide into beamer presentation, showing control flow for the following scenario:
