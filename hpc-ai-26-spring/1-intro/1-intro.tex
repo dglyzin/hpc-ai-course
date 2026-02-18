@@ -466,6 +466,34 @@ ItalicFont = *-Italic,
 	4. CLI connects to remote server
     \end{frame}
     }
+    
+    \begin{frame}{ИНФРАСТРУКТУРА: git и latexpdf}
+    	
+    	%\frametitle
+    	{Команды git}
+    	\begin{itemize}
+    		\item [-] \texttt{git clone git@github.com:dglyzin/qwendiag.git} — клонируем репозиторий
+    		\item [-] \texttt{git commit -a -m "update"} — фиксируем изменения
+    		\item [-] \texttt{git add <filename>} — добавим файл под контроль версий
+    		\item [-] \texttt{git checkout .} — отменим незафиксированные изменения
+    		\item [-] \texttt{git push} — отправим зафиксированные изменения в репозиторий
+    		\item [-] \texttt{git diff} — посмотрим, что было изменено после фиксации	
+    	\end{itemize}
+    
+        {Команды TeX}
+        \begin{itemize}
+    	\item [-] \texttt{pdflatex <filename.tex>} — компилируем tex-файл в pdf
+        \end{itemize}
+    
+    \end{frame}
+    
+    \begin{frame}{ЧТО НЕ ТАК С ЗАПРОСОМ ДЛЯ ДИАГРАММЫ?}
+    \begin{itemize}
+    	\item [-] можно ли улучшить сам запрос для более качественного предварительного результата?
+    	\item [-] как имея предварительный результат улучшить (и не ухудшить) его дополнительными запросами?
+    \end{itemize}
+    
+    \end{frame}
 
     \section{1.1. Разработка c агентом-кодером}
     {
