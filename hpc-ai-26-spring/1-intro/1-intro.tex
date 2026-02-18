@@ -7,7 +7,7 @@
 \usepackage{adjustbox}
 \usepackage[inkscapeversion=1.2]{svg}
 \usepackage{fancyvrb}
-\usetikzlibrary{shadings, shapes, arrows, shapes.geometric, arrows.meta, positioning, fit, backgrounds}
+\usetikzlibrary{shadings, shapes, arrows, shapes.geometric, arrows.meta, positioning, fit, backgrounds, calc}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
@@ -117,7 +117,7 @@ ItalicFont = *-Italic,
 % Title page
 \title{МАШИННОЕ ОБУЧЕНИЕ}
 \subtitle{С СОВРЕМЕННЫМИ ПРИЛОЖЕНИЯМИ}
-\author{Дмитрий Глызин}
+\author{Дмитрий Сергеевич Глызин}
 \institute{Акселкомп / ЯрГУ}
 %\date{\today}
 \date{Весна 2026}
@@ -576,7 +576,64 @@ ItalicFont = *-Italic,
     } %end section 1.1
     
     
+    \section{1.2. Общение с LLM через OpenAI API}
+    {
+    	\begin{frame}
+    		\centering
+    		\vspace{2cm}
+    		{\huge\headerfont\bfseries 1.2. ОБЩЕНИЕ С LLM ЧЕРЕЗ OpenAI API}
+    	\end{frame}
     
+    \begin{frame}{Qwen Code CLI Architecture}
+    	
+    	\centering
+    	\begin{tikzpicture}[
+    		blackbox/.style={
+    			rectangle, draw=black, fill=black, text=white,
+    			minimum width=3cm, minimum height=1.2cm,
+    			align=center, rounded corners=2pt,
+    			font=\small
+    		},
+    		whitebox/.style={
+    			rectangle, draw=black, fill=white,
+    			minimum width=2.2cm, minimum height=1cm,
+    			align=center, font=\footnotesize
+    		},
+    		usercircle/.style={
+    			circle, draw=black, fill=white,
+    			minimum size=1.3cm, font=\footnotesize
+    		},
+    		arr/.style={-{Stealth[length=2.5mm]}, thick}
+    		]
+    		
+    		% Black boxes
+    		\node[blackbox] (llama) at (-3, 2) {\textbf{llama.cpp}\\model server};
+    		\node[blackbox] (qwen) at (3, 2) {\textbf{Qwen code CLI}};
+    		
+    		% White box and circle
+    		\node[usercircle] (user) at (0, -1) {User};
+    		\node[whitebox] (fs) at (6, -1) {User's\\filesystem};
+    		
+    		% Bidirectional arrows between llama and qwen
+    		\draw[arr] ([yshift=4pt]qwen.west) -- ([yshift=4pt]llama.east)
+    		node[midway, above, font=\scriptsize] {context, requests};
+    		\draw[arr] ([yshift=-4pt]llama.east) -- ([yshift=-4pt]qwen.west)
+    		node[midway, below, font=\scriptsize] {thoughts, tool calls};
+    		
+    		% Arrow from qwen to user
+    		\draw[arr] ($(qwen.south) + (-0.3, 0)$) -- ++(0, -0.8) -| (user.north);
+    		\node[font=\scriptsize, left] at (1.35, 0.5) {responses};
+    		
+    		% Arrow from qwen to fs
+    		\draw[arr] ($(qwen.south) + (0.3, 0)$) -- ++(0, -0.8) -| (fs.north);
+    		\node[font=\scriptsize, right] at (4.65, 0.5) {changes};
+    		
+    	\end{tikzpicture}
+    	
+    \end{frame} 
+    
+    } %end section 1.2
+     
 \end{document}
 
 
