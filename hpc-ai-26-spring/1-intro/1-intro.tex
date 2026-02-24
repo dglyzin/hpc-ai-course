@@ -586,7 +586,16 @@ ItalicFont = *-Italic,
     		{\huge\headerfont\bfseries 1.2. ОБЩЕНИЕ С LLM ЧЕРЕЗ OpenAI API}
     	\end{frame}
     
-    \begin{frame}{Qwen Code CLI Architecture}
+    \begin{frame}{API AI API AI API}
+    	\begin{itemize}
+    		\item [-] API = application programming interface = интерфейс ``общения`` между компонентами одного ПО или между разным ПО 
+    		\item [-] OpenAI --- компания-разработчик СhatGPT (давно не ``open``)
+    		\item [-] не путать с OpenAPI (популярный стандарт {\bf описания} http-запросов)
+    		\item [-] OpenAI API --- это API, первоначально созданный OpenAI для программирования запросов к ChatGPT, но впоследствии ставший стандартом для всех серверов LLM (в частности, для ollama.cpp, которую мы используем)
+    	\end{itemize}
+    \end{frame}
+    
+    \begin{frame}{ПОТОК ДАННЫХ}
     	
     	\centering
     	\begin{tikzpicture}[
@@ -597,12 +606,12 @@ ItalicFont = *-Italic,
     			font=\small
     		},
     		whitebox/.style={
-    			rectangle, draw=black, fill=white,
+    			rectangle, draw=black, fill=gray,
     			minimum width=2.2cm, minimum height=1cm,
     			align=center, font=\footnotesize
     		},
     		usercircle/.style={
-    			circle, draw=black, fill=white,
+    			circle, draw=black, fill=gray,
     			minimum size=1.3cm, font=\footnotesize
     		},
     		arr/.style={-{Stealth[length=2.5mm]}, thick}
@@ -624,11 +633,17 @@ ItalicFont = *-Italic,
     		
     		% Arrow from qwen to user
     		\draw[arr] ($(qwen.south) + (-0.3, 0)$) -- ++(0, -0.8) -| (user.north);
-    		\node[font=\scriptsize, left] at (1.35, 0.5) {responses};
+    		\node[font=\scriptsize, left] at (1.35, 0.7) {responses};
+    		
+    		\draw[arr] (user.east) -- ++(1, 0) -| ($(qwen.south)+(-0.15,0)$);
+    		\node[font=\scriptsize, left] at (2.6, -1.16) {requests};
     		
     		% Arrow from qwen to fs
     		\draw[arr] ($(qwen.south) + (0.3, 0)$) -- ++(0, -0.8) -| (fs.north);
-    		\node[font=\scriptsize, right] at (4.65, 0.5) {changes};
+    		\node[font=\scriptsize, right] at (4.65, 0.7) {changes};
+    		
+    		\draw[arr] (fs.west) -- ++(-1, 0) -| ($(qwen.south)+(0.15,0)$);
+    		\node[font=\scriptsize, right] at (3.6, -1.16) {context};
     		
     	\end{tikzpicture}
     	
