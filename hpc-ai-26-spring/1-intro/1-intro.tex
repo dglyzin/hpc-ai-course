@@ -591,7 +591,7 @@ ItalicFont = *-Italic,
     		\item [-] API = application programming interface = интерфейс ``общения`` между компонентами одного ПО или между разным ПО 
     		\item [-] OpenAI --- компания-разработчик СhatGPT (давно не ``open``)
     		\item [-] не путать с OpenAPI (популярный стандарт {\bf описания} http-запросов)
-    		\item [-] OpenAI API --- это API, первоначально созданный OpenAI для программирования запросов к ChatGPT, но впоследствии ставший стандартом для всех серверов LLM (в частности, для ollama.cpp, которую мы используем)
+    		\item [-] OpenAI API --- это API, первоначально созданный OpenAI для программирования запросов к ChatGPT, но впоследствии ставший стандартом для всех серверов LLM (в частности, для llama.cpp, которую мы используем)
     	\end{itemize}
     \end{frame}
     
@@ -648,6 +648,21 @@ ItalicFont = *-Italic,
     	\end{tikzpicture}
     	
     \end{frame} 
+    
+    \begin{frame}{ЧЕРНЫЕ ЯЩИКИ}
+    	
+    	Два ``черных ящика``:
+    	\begin{itemize}
+    		\item [-] Qwen code CLI (command line interface) --- агент
+    		\item [-] llama.cpp inference engine --- сервер    		
+    	\end{itemize}
+    	
+    	\bigskip
+    	
+    	Попробуем обойти первый и делать запросы напрямую ко второму.
+    	
+    \end{frame}
+    
     
     } %end section 1.2
      
