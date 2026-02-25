@@ -8,6 +8,7 @@
 \usepackage[inkscapeversion=1.2]{svg}
 \usepackage{fancyvrb}
 \usetikzlibrary{shadings, shapes, arrows, shapes.geometric, arrows.meta, positioning, fit, backgrounds, calc}
+\usepackage{minted}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
@@ -662,7 +663,75 @@ ItalicFont = *-Italic,
     	Попробуем обойти первый и делать запросы напрямую ко второму.
     	
     \end{frame}
+
+\begin{frame}[fragile]{Chat with local LLM via OpenAI API}
     
+    \begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+        from openai import OpenAI
+        
+        # Configure the client to point to LOCALHOST
+        client = OpenAI(
+            base_url="http://192.168.20.18:12434/v1",
+            api_key="sk-no-key-required"  # API Key is ignored by llama.cpp usually
+        )
+        
+        messages = [
+            {"role": "system", "content": "You are a helpful coding assistant."},
+            {"role": "user", "content": "Write a python function to calculate fibonacci."}
+        ]
+     \end{minted}
+ 
+\end{frame}       
+\begin{frame}[fragile]{Chat with local LLM via OpenAI API}
+    
+    \begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+        try:
+            response = client.chat.completions.create(
+                model="local-model",  # Model name doesn't matter for llama.cpp server
+                messages=messages,
+                temperature=0.7,
+                max_tokens=500
+            )
+            print(response.choices[0].message.content)
+        except Exception as e:
+            print(f"Error: {e}")
+    \end{minted}
+    
+\end{frame}
+    
+\begin{frame}{УПРАЖНЕНИЯ}
+    
+    Может потребоваться установка пакета openai: pip install openai
+    \begin{itemize}
+        \item [-] В скрипте 3-chat.py исправьте номер порта и выполните его (python3 3-chat.py). Убедитесь, что выводится ответ от LLM.         
+        \item [-] Запустите Qwen code и дайте ему задание ``В файле @3-chat.py отправляется запрос к локальной LLM. Измени скрипт так, чтобы ответ выводился по мере генерации, а не в конце.``.
+        \item [-] Увеличьте параметр temperature и сравните ответ.
+    \end{itemize}
+    
+     
+\end{frame}
+
+\begin{frame}[fragile]{ПОТОКОВЫЙ ВЫВОД}
+      
+    \begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+    try:
+        response = client.chat.completions.create(
+            model="local-model", # Model name doesn't matter for llama.cpp server
+            messages=messages,
+            temperature=0.7,
+            max_tokens=500,
+            stream=True
+        )
+        for chunk in response:
+            if chunk.choices[0].delta.content is not None:
+                print(chunk.choices[0].delta.content, end="", flush=True)
+        print()
+    except Exception as e:
+        print(f"Error: {e}")    
+        
+    \end{minted}
+    
+\end{frame}
     
     } %end section 1.2
      
