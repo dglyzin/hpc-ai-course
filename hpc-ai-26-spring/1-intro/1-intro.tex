@@ -9,6 +9,8 @@
 \usepackage{fancyvrb}
 \usetikzlibrary{shadings, shapes, arrows, shapes.geometric, arrows.meta, positioning, fit, backgrounds, calc}
 \usepackage{minted}
+\usemintedstyle{monokai}
+%\usemintedstyle{material}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
@@ -734,8 +736,33 @@ ItalicFont = *-Italic,
     \end{minted}
     
 \end{frame}
+  
+ \begin{frame}{KV-КЭШ}
+     
+     Результаты промежуточных вычислений в процессе диалога кэшируются LLM-сервером:
+     \begin{itemize}
+         \item [-] если у нового запроса есть большой процент совпадения префикса с уже существующим (и еще не вытесненным) запросом, то для этого префикса пересчет не производится
+         \item [-] например, большой системный промпт от Qwen Code CLI обрабатывается только при первом запросе, при последующих время тратится только на обработку новых данных         
+         \item [-] в диалоге с большим количеством реплик на последней итерации обрабатывается только последняя пара: ответ LLM и новый запрос пользователя
+         \item [-] коммерческие провайдеры LLM-сервисов (помимо покупки токенов) за отдельные деньги предлагают длительное хранение KV-кэша
+         \item [-] помогает в случае множества запросов с одним большим системным промптом         
+     \end{itemize}
+     
+     
+ \end{frame}  
     
+  
     } %end section 1.2
+    
+     \section{1.3. Prompt Engineering - системный подход}
+    {
+        \begin{frame}
+            \centering
+            \vspace{2cm}
+            {\huge\headerfont\bfseries 1.3. PROMPT ENGINEERING - СИСТЕМНЫЙ ПОДХОД}
+        \end{frame}
+        
+    } %end section 1.3
      
 \end{document}
 
