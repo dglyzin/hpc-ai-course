@@ -12,6 +12,7 @@
 \usemintedstyle{monokai}
 %\usemintedstyle{material}
 
+\usepackage{hyperref}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
@@ -729,7 +730,7 @@ ItalicFont = *-Italic,
         for chunk in response:
             if chunk.choices[0].delta.content is not None:
                 print(chunk.choices[0].delta.content, end="", flush=True)
-        print()
+        print()https://www.oneusefulthing.org/p/managem
     except Exception as e:
         print(f"Error: {e}")    
         
@@ -766,15 +767,80 @@ ItalicFont = *-Italic,
             
             \begin{itemize}
                 \item [-] С течением времени неочевидные особенности промптинга теряют значение, т.к. компенсируются общим развитием моделей и их пониманием естественного языка
-                \item [-] Две разных задачи: создание системного промпта для многократного применения (возможно, разными людьми), когда затраты на его создание пренебрежимо малы, и
+                \item [-] Две разные задачи: создание системного промпта для многократного применения (возможно, разными людьми), когда затраты на его создание заведомо оправдываются, и
                 \item [-] создание запросов в текущей работе для делегирования задач ИИ, в этом случае время, потраченное на создание запроса, является важной частью уравнения                
             \end{itemize}           
             
+        
+        \end{frame}
+        
+        \begin{frame}{СДЕЛАТЬ САМОМУ VS ДЕЛЕГИРОВАТЬ ИИ}
+             Что больше: время, потраченное за задачу человеком, или 
+             \begin{itemize}
+                \item [-] Создание запроса + выполнение запроса ИИ + проверка результата
+                \item [-] Возможно, повторить несколько раз, в зависимости от того, какова вероятность успеха данной модели на данной задаче
+            \end{itemize}
+        \end{frame}      
+        
+        \begin{frame}
+          
+          \begin{tikzpicture}%[remember picture,overlay]
+              \node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+              {                  
+                  {\includegraphics[width=14cm]{delegation.jpg}}
+              };
+          \end{tikzpicture}
+          \url{https://www.oneusefulthing.org/p/management-as-ai-superpower}
         \end{frame}      
         
         
+        \begin{frame}{СИТУАЦИЯ В РАЗРАБОТКЕ ПО}
+            \begin{itemize}
+                \item [-] Проверку результата можно переложить на ИИ естественным образом (``перед тем, как писать код, напиши тесты``)
+                \item [-] Создание промпта также в достаточной мере автоматизируется (режим планирования или ``сделай инструкцию ИИ-кодеру из 10 шагов для решения задачи``)
+                \item [-] Делегирование идет быстрее в закрытых коллективах, чем в opensource проектах   
+                \item [-] Многие opensource проекты перегружены низкокачественными pull request-ами от ИИ
+            \end{itemize}
+        \end{frame}      
         
-        \begin{frame}{ЧЕК-ЛИСТ ДЛЯ ПРОВЕРКИ ПРОМПТА}
+        \begin{frame}
+            
+            \begin{tikzpicture}%[remember picture,overlay]
+                \node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+                {                  
+                    {\includegraphics[width=7cm]{hundredcode.png}}
+                };
+            \end{tikzpicture}
+            \url{https://www.oneusefulthing.org/p/management-as-ai-superpower}
+            
+            \bigskip
+            
+            \begin{tikzpicture}%[remember picture,overlay]
+                \node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+                {                  
+                    {\includegraphics[width=12cm]{llama-agents.png}}
+                };
+            \end{tikzpicture}
+            \url{https://github.com/ggml-org/llama.cpp/blob/master/AGENTS.md}
+        \end{frame}   
+        
+        
+         \begin{frame}{ЗАПРОС И ОЦЕНКА РЕЗУЛЬТАТА В ДРУГИХ СФЕРАХ}
+            
+            \begin{tikzpicture}%[remember picture,overlay]
+                \node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+                {                  
+                    {\includegraphics[width=11cm]{drewcomment.png}}
+                };
+            \end{tikzpicture}
+            
+            Из комментариев к \url{https://www.oneusefulthing.org/p/management-as-ai-superpower}
+            
+           
+        \end{frame}   
+        
+        
+        \begin{frame}{ЧЕК-ЛИСТ ДЛЯ ПРОВЕРКИ СИСТЕМНОГО ПРОМПТА}
             
             \begin{itemize}
                 \item [-] Указана ли персона, от лица которой действует модель?                
@@ -784,17 +850,18 @@ ItalicFont = *-Italic,
                 \item [-] Если позволяет задача, приведены ли хотя бы три примера того, что требуется?
             \end{itemize}           
             
+            \url{https://www.reddit.com/r/PromptEngineering/comments/1byj8pd/comment/kz7j6kv/}
         \end{frame}       
+        
+        
         
         
         \begin{frame}{ИЗВЕСТНЫЕ ПРОБЛЕМЫ}
                         
             \begin{itemize}
                 \item [-] нейросеть ``глупеет``, если заставлять ее строго форматировать ответ (``...отвечай в json-формате со следующими секциями...``)
-                \item [-] 
-                \item [-] 32
-                \item [-] 4
-                \item [-] 5
+                \item [-] системный промпт не является надежным хранилищем информации: пользователь может добыть из него данные (нельзя хранить пароли)
+                \item [-] ограничения из системного промпта могут быть нарушены при достаточной настойчивости пользователя (нельзя устанавливать ограничения вида ``используй только SELECT, никогда не используй DELETE`` только через системный промпт)                
             \end{itemize}
             
             
