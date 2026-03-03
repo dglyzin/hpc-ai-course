@@ -779,6 +779,81 @@ ItalicFont = *-Italic,
         	
         \end{frame}
         
+        \begin{frame}{ЦЕЛЬ ПРОМПТИНГА}
+        	Увеличить вероятность хорошего ответа от LLM:
+        	\begin{itemize}
+        		\item [-] без дообучения;
+        		\item [-] статическим контекстом (не зависящим от вопроса в рамках области применения).
+        	\end{itemize}                   
+       \end{frame}
+    
+       \begin{frame}{ИСТОРИЯ}
+       	zero-shot learning
+       	
+       	\begin{tikzpicture}%[remember picture,overlay]
+       	\node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+       	{                  
+       		{\includegraphics[width=13cm]{zeroshot.png}}
+       	};
+       \end{tikzpicture}
+       
+       few-shot learning
+       	\begin{tikzpicture}%[remember picture,overlay]
+       		\node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+       		{                  
+       			{\includegraphics[width=13cm]{fewshot.png}}
+       		};
+       	\end{tikzpicture}
+         
+        
+        \url{https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/}           
+       \end{frame} 
+        
+        \begin{frame}{ИСТОРИЯ}
+       	instruction prompting (с появлением instruct-моделей)
+       	
+       	\begin{tikzpicture}%[remember picture,overlay]
+       		\node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+       		{                  
+       			{\includegraphics[width=13cm]{instruct.png}}
+       		};
+       	\end{tikzpicture}
+       	
+       	in-context instruction learning
+       	\begin{tikzpicture}%[remember picture,overlay]
+       		\node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+       		{                  
+       			{\includegraphics[width=13cm]{instructfewshot.png}}
+       		};
+       	\end{tikzpicture}
+       	
+       	
+       	\url{https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/}           
+       \end{frame}  
+       
+       \begin{frame}{ИСТОРИЯ}
+       	CoT (Chain-of-Thought) prompting (появилось до того, как ``думающие`` модели сделали рассуждение частью ответа)
+       	
+       	\begin{tikzpicture}%[remember picture,overlay]
+       		\node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+       		{                  
+       			{\includegraphics[width=10cm]{zerocot.png}}
+       		};
+       	\end{tikzpicture}
+       	
+       	few-shot chain-of-thought
+       	\begin{tikzpicture}%[remember picture,overlay]
+       		\node[anchor=west, inner sep=0] at ([xshift=1.cm]current page.west) 
+       		{                  
+       			{\includegraphics[width=10cm]{fewcot.png}}
+       		};
+       	\end{tikzpicture}
+       	
+       	
+       	\url{https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/}           
+       \end{frame}  
+        
+        
         \begin{frame}{ЗАПРОСЫ}
             
             \begin{itemize}
