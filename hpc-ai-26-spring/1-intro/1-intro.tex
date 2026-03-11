@@ -1013,7 +1013,269 @@ ItalicFont = *-Italic,
     		\vspace{2cm}
     		{\huge\headerfont\bfseries 1.4. СОЗДАНИЕ АГЕНТОВ: ЦИКЛ ``РАССУЖДЕНИЕ-ДЕЙСТВИЕ``}
     	\end{frame}
-    	 
+
+
+\begin{frame}{ОТКРОЕМ ПРАВЫЙ ``ЧЕРНЫЙ ЯЩИК``}
+    
+    \centering
+    \begin{tikzpicture}[
+        blackbox/.style={
+            rectangle, draw=black, fill=black, text=white,
+            minimum width=3cm, minimum height=1.2cm,
+            align=center, rounded corners=2pt,
+            font=\small
+        },
+        whitebox/.style={
+            rectangle, draw=black, fill=gray,
+            minimum width=2.2cm, minimum height=1cm,
+            align=center, font=\footnotesize
+        },
+        usercircle/.style={
+            circle, draw=black, fill=gray,
+            minimum size=1.3cm, font=\footnotesize
+        },
+        arr/.style={-{Stealth[length=2.5mm]}, thick}
+        ]
+        
+        % Black boxes
+        \node[blackbox] (llama) at (-3, 2) {\textbf{llama.cpp}\\model server};
+        \node[blackbox] (qwen) at (3, 2) {\textbf{Qwen code CLI}};
+        
+        % White box and circle
+        \node[usercircle] (user) at (0, -1) {User};
+        \node[whitebox] (fs) at (6, -1) {User's\\filesystem};
+        
+        % Bidirectional arrows between llama and qwen
+        \draw[arr] ([yshift=4pt]qwen.west) -- ([yshift=4pt]llama.east)
+        node[midway, above, font=\scriptsize] {context, requests};
+        \draw[arr] ([yshift=-4pt]llama.east) -- ([yshift=-4pt]qwen.west)
+        node[midway, below, font=\scriptsize] {thoughts, tool calls};
+        
+        % Arrow from qwen to user
+        \draw[arr] ($(qwen.south) + (-0.3, 0)$) -- ++(0, -0.8) -| (user.north);
+        \node[font=\scriptsize, left] at (1.35, 0.7) {responses};
+        
+        \draw[arr] (user.east) -- ++(1, 0) -| ($(qwen.south)+(-0.15,0)$);
+        \node[font=\scriptsize, left] at (2.6, -1.16) {requests};
+        
+        % Arrow from qwen to fs
+        \draw[arr] ($(qwen.south) + (0.3, 0)$) -- ++(0, -0.8) -| (fs.north);
+        \node[font=\scriptsize, right] at (4.65, 0.7) {changes};
+        
+        \draw[arr] (fs.west) -- ++(-1, 0) -| ($(qwen.south)+(0.15,0)$);
+        \node[font=\scriptsize, right] at (3.6, -1.16) {context};
+        
+    \end{tikzpicture}
+    
+    \end{frame} 
+
+\begin{frame}{ДОБАВЛЕНИЕ ВЫЗОВА ИНСТРУМЕНТОВ В ЦИКЛ}
+    
+    Мы уже делали цикл общения с LLM на Питоне:
+    
+    \begin{itemize}
+        \item [-] сообщение пользователя
+        \item [-] сообщение LLM
+        \item [-] повторить
+    \end{itemize}
+    
+    Добавляем действие:
+    
+    \begin{itemize}
+        \item [-] сообщение пользователя
+        \item [-] сообщение LLM
+        \item [-] если сообщение LLM содержит вызов инструмента, то проверяем его на допустимость (напр. не удаляет данные из базы) и выполняем, затем ответ отправляем LLM
+        \item [-] иначе выводим сообщение от LLM пользователю
+        \item [-] повторить        
+    \end{itemize}
+    
+    
+\end{frame}  
+
+
+
+ \begin{frame}{ПРИМЕР: ИНСТРУМЕНТ РАБОТЫ С БАЗОЙ ДАННЫХ}
+    
+    Что от нас требуется:
+    
+    \begin{itemize}
+        \item [-] информация для LLM в системном промпте о том, что она может обращаться к базе данных через вызов инструмента и какие данные она должна подготовить (в данном случае строку запроса)
+        \item [-] схема базы в системном промпте (пока база не слишком большая) или объяснение, как добыть данные о таблицах и полях
+        \item [-] сам инструмент - функция, которая валидирует полученную от LLM строку запроса и отправит ее как sql-запрос к базе, а затем вернет ответ от базы
+    \end{itemize}
+    
+    
+\end{frame}  
+
+\begin{frame}{ТИПОВАЯ ВАЛИДАЦИЯ}
+    
+   
+    \begin{itemize}
+        \item [-] безопасность: инструмент должен сам определять, какие операции допустимы, чтобы не повредить данные или не выдать конфиденциальную информацию (не полагаться на то, что LLM будет в точности следовать системному промпту)
+        \item [-] размер ответа от базы: инструмент не должен допускать непреднамеренные ответы большого размера 
+    \end{itemize}
+    
+    
+\end{frame}  
+
+\begin{frame}{СОСТАВЛЯЕМ СИСТЕМНЫЙ ПРОМПТ}
+
+Некоторые компоненты:
+    
+\begin{itemize}
+    \item [-] {\bf Персона:} You are Кибергеолог (Cybergeologist), an intelligent assistant specialized in geology, drilling, and monitoring data. You have access to a PostgreSQL database containing information about wells, samples, and related geological data... When you need to retrieve information from the database, use the {\bf query\textunderscore database} tool.
+    \item [-] {\bf Схема БД:} Below is the database schema. Use ONLY these tables and columns when constructing queries: ... (дальше идет схема на тысячи токенов)
+    \item [-] {\bf Текущая дата:} Today's date is: ...
+    
+\end{itemize}
+
+Вопрос: что будет, если поменять в промпте схему и дату местами?
+
+\end{frame}  
+
+\begin{frame}[fragile]{СОЗДАЕМ ОПИСАНИЕ ИНСТРУМЕНТА  query\textunderscore database }
+    
+    \begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+        def get_query_database_tool() -> Dict[str, Any]:
+        """
+        Get the function schema for OpenAI-compatible function calling.
+        
+        Defines the tool that the LLM can use to query the database.
+        
+        Returns:
+        Dict[str, Any]: OpenAI tool specification for database querying
+        """        
+    \end{minted}    
+    
+\end{frame}
+
+
+\begin{frame}[fragile]{СОЗДАЕМ ОПИСАНИЕ ИНСТРУМЕНТА  query\textunderscore database }
+    
+    \begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+return {
+    "type": "function",
+    "function": {
+        "name": "query_database",
+        "description": "Query the PostgreSQL database to answer "
+        "user questions. Only SELECT queries are allowed. Use this "
+        "tool when you need to retrieve information from the "
+        "database to help answer the user's question.",
+    \end{minted}            
+\end{frame}
+
+\begin{frame}[fragile]{СОЗДАЕМ ОПИСАНИЕ ИНСТРУМЕНТА  query\textunderscore database }
+    
+    \begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "SQL SELECT query to execute. The query must be a valid SELECT statement. "
+                    "Example: SELECT * FROM wells WHERE id = 123"
+                }
+            },
+            "required": ["query"]
+        }
+    }
+}
+
+    \end{minted}    
+\end{frame}
+    
+    
+\begin{frame}[fragile]{ВНЕДРЯЕМ ОПИСАНИЕ ИНСТРУМЕНТА В ЗАПРОС К LLM }
+    
+\begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}    
+# Prepare tools if enabled
+tools = [get_query_database_tool()] if enable_tool else []
+# Call LLM with streaming enabled
+stream = client.chat.completions.create(
+    model=LLM_MODEL,
+    messages=messages,
+    tools=tools,
+    tool_choice="auto" if enable_tool else None,
+    stream=True
+)
+\end{minted}    
+\end{frame}
+
+
+\begin{frame}[fragile]{СОЗДАЕМ САМ ИНСТРУМЕНТ }
+    
+\begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+def execute_sql_query(query: str) -> List[Dict[str, Any]]:
+    """
+    Execute a SQL query and return results as a list of dictionaries.
+    
+    Only SELECT queries are allowed for security.
+    Unbounded queries (without LIMIT) will automatically have LIMIT 20 applied.
+    
+    Args:
+        query (str): SQL query to execute (must be a SELECT query)    
+    Returns:
+        List[Dict[str, Any]]: Query results as list of row dictionaries    
+    Raises:
+        ValueError: If query is not a SELECT statement
+        Exception: If query execution fails
+    """
+\end{minted}    
+\end{frame}
+
+
+\begin{frame}[fragile]{ВЫЗЫВАЕМ ИНСТРУМЕНТ, ЕСЛИ LLM ЭТОГО ПОЖЕЛАЛА}
+    
+\begin{minted}[breaklines,autogobble,framesep=2mm,linenos]{python}
+# Execute the function
+if function_name == "query_database":
+query = function_args.get("query", "")
+try:
+    results = execute_sql_query(query)
+    
+    yield {
+        "type": "tool_output",
+        "content": f"Query returned {len(results)} rows",
+        "metadata": {
+            "query": query,
+            "rows": len(results),
+            "results": results[:10]  # Limit results in metadata
+        }
+    }
+\end{minted}    
+\end{frame}
+
+\begin{frame}{УПРАЖНЕНИЕ}
+    
+    Сделаем инструмент поиска в интернете
+    
+    \begin{itemize}
+        \item [-] LLM анализирует ваш вопрос
+        \item [-] Если он требует актуальных данных, то обращается к поисковику
+        \item [-] Иначе просто отвечает на основе собственных знаний
+    \end{itemize}
+    
+    Какова производительность самых мощных суперкомпьютеров в 2025 году?
+    
+    Как менялась стоимость NVIDIA в 2024-2026 годах по месяцам?
+    
+    
+    
+\end{frame}  
+
+
+\begin{frame}{ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ}
+    
+    Подходы к стандартизации инструментов для агентов
+    
+    \begin{itemize}
+        \item [-] MCP (model context protocol)
+        \item [-] Skills         
+    \end{itemize}        
+    
+\end{frame}  
+
+
      } %end section 1.4
      
 \end{document}
